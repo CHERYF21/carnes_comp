@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compensación cajas</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/inicioSesion.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="formContainer">
+        <h2>Compensación Carnes</h2>
+        <div class="logovaq">
+          <img
+            class="logo-vq"
+            src="{{ url_for('static', filename='images/logoVaquita.png') }}"
+            alt="logo"
+          />
+        </div>
+        <h3>¡Inicia Sesión!</h3>
+        <form method="post" action="{{ url_for('login') }}">
+          <div class="inputContainer">
+            <div class="left">
+              <label for="username">Usuario</label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                placeholder="Usuario..."
+              />
+            </div>
+            <i class="fa fa-user"></i>
+          </div>
+          <div class="inputContainer">
+            <div class="left">
+              <label for="password">Contraseña</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Contraseña..."
+              />
+            </div>
+            <i class="fa fa-lock"></i>
+          </div>
+          <div class="inputContainer">
+            <div class="left">
+              <select id="sede" name="sede" class="opcion-select">
+                <option value="" disabled selected>
+                  Selecciona la sede...
+                </option>
+                <option value="LA 33">La 33</option>
+                          <option value="SAN CRISTOBAL">San Cristobal</option>
+                          <option value="POBLADO">Poblado</option>
+                          <option value="RIONEGRO">Rionegro</option>
+                          <option value="SABANETA AVENIDA">Sabaneta Avenida</option>
+                          <option value="INTERMEDIA">Intermedia</option>
+                          <option value="PRADO">San Antonio de Prado</option>
+                          <option value="SABANETA PARQUE">Sabaneta Parque</option>
+                          <option value="PEDREGAL">Pedregal</option>
+                          <option value="SAN JOAQUIN">San Joaquin</option>
+                          <option value="FLORESTA">Floresta</option>
+                          <option value="SAN MARCOS">San Marcos</option>
+                          <option value="LAURELES">Laureles</option>
+              </select>
+            </div>
+            <i class="fa fa-store"></i>
+          </div>
+          <div>{{ msg }}</div>
+          <button type="submit" value="login">Inicia Sesión</button>
+          <p>
+            ¿Aún no tienes cuenta?
+            <a href="{{url_for('registro')}}">Regístrate!</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
