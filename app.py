@@ -12,14 +12,14 @@ TIEMPO_DE_INACTIVIDAD = 120
 
 app = Flask(__name__)
 # conexión a la base de datos
-app.config['MYSQL_HOST'] = '192.168.33.251'
-app.config['MYSQL_USER'] = 'miguelos'
-app.config['MYSQL_PASSWORD'] = 'Mosorio2022$'
-app.config['MYSQL_DB'] = 'comp_carnes'
-# app.config['MYSQL_HOST'] = '127.0.0.1'
-# app.config['MYSQL_USER'] = 'root'
-# app.config['MYSQL_PASSWORD'] = 'Wmurillo66*'
+# app.config['MYSQL_HOST'] = '192.168.33.251'
+# app.config['MYSQL_USER'] = 'miguelos'
+# app.config['MYSQL_PASSWORD'] = 'Mosorio2022$'
 # app.config['MYSQL_DB'] = 'comp_carnes'
+app.config['MYSQL_HOST'] = '127.0.0.1'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'root'
+app.config['MYSQL_DB'] = 'comp_carnes'
 
 # inicia la base de datos
 mysql = MySQL(app)

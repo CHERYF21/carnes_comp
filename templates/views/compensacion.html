@@ -22,6 +22,15 @@
         </div>
         <div class="cards">
             <section class="cardContainer">
+                <!-- card solo para admin  -->
+                {% if 'sede' in session and session['cargo'] == '02' %}
+                <div class="admin">
+                    <h1>vista admin</h1>
+                    <h5>Sede Actual: </h5>
+                    <h5>Ultima actualizacion: </h5>
+                </div>
+                {% endif %}
+                <!-- fin card  -->
                   <div class="calendar">
                     <label for="date1">Fecha Inicial</label>
                     <input type="date" id="date1" name="date1">
@@ -30,6 +39,29 @@
                     <label for="date2">Fecha Final</label>
                     <input type="date" id="date2" name="date2">
                 </div>
+                <!-- desplegable para el admin  -->
+                {% if 'sede' in session and session['cargo'] == '02' %}
+                    <select id="sede" name="sede" class="calendar">
+                        <option value="" disabled selected>
+                          Selecciona la sede...
+                        </option>
+                        <option value="LA 33">La 33</option>
+                                  <option value="SAN CRISTOBAL">San Cristobal</option>
+                                  <option value="LOS BALSOS">Poblado</option>
+                                  <option value="RIONEGRO">Rionegro</option>
+                                  <option value="SABANETA AVENIDA">Sabaneta Avenida</option>
+                                  <option value="INTERMEDIA">Intermedia</option>
+                                  <option value="PRADO">San Antonio de Prado</option>
+                                  <option value="SABANETA PARQUE">Sabaneta Parque</option>
+                                  <option value="PEDREGAL">Pedregal</option>
+                                  <option value="SAN JOAQUIN">San Joaquin</option>
+                                  <option value="FLORESTA">Floresta</option>
+                                  <option value="SAN MARCOS">San Marcos</option>
+                                  <option value="LAURELES">Laureles</option>
+                                  <option value="Administrador">Administrador</option>
+                      </select>
+                      {% endif %}
+                      <!-- fin desplegable  -->
                 <div id="loaderBuscar" style="display: none;">
                     <i class="fas fa-spinner fa-spin"></i> Buscando...
                 </div>
