@@ -1,6 +1,7 @@
 function buscarRegistros() {
     var fecha_inicio = $('#date1').val();
     var fecha_fin = $('#date2').val();
+    var sede_admin = $('#sede').val();
     console.log('Fecha Inicio:', fecha_inicio, 'Fecha Fin:', fecha_fin);
     document.getElementById("loaderBuscar").style.display = "block";
 
@@ -9,7 +10,8 @@ function buscarRegistros() {
         type: 'GET',
         data: {
             fecha_inicio: fecha_inicio,
-            fecha_fin: fecha_fin
+            fecha_fin: fecha_fin,
+            sede_admin: sede_admin
         },
         xhrFields: {
             withCredentials: true

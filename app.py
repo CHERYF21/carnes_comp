@@ -224,6 +224,7 @@ def generar_datos():
 
     fecha_inicio = request.args.get('fecha_inicio')
     fecha_fin = request.args.get('fecha_fin')
+    sede_admin = request.args.get('sede_admin')
 
     if not fecha_inicio or not fecha_fin:
         return jsonify({'status': 'fail', 'message': 'Debes ingresar la fecha'}), 400
@@ -247,10 +248,10 @@ def generar_datos():
         #'SELECT {} FROM topes_sede WHERE nombre_sedes = {}' .format(tabla_tope_registros, id_co))
     'SELECT ' + tabla_tope_registros + ' FROM topes_sede WHERE nombre_sedes = \'' + id_co + '\'')
     tope_registros = cur.fetchone()[0]
-    print(tope_registros)
     cur.close()
+    # verifica que sede_admin sea diferente de nulo 
+    nombre_sede = sede_admin if sede_admin else id_co
         
-    
     try:
         cur = mysql.connection.cursor()
         query = '''SELECT NombreTienda, NombreVendedor, SUM(Peso) AS PesoTotal,
@@ -259,7 +260,7 @@ def generar_datos():
                    WHERE NombreTienda = %s AND Fecha >= %s AND Fecha <= %s 
                    GROUP BY NombreTienda, NombreVendedor
                    ORDER BY PesoTotal DESC'''
-        cur.execute(query, (tope_registros, id_co, fecha_inicio_str, fecha_fin_str))
+        cur.execute(query, (tope_registros, nombre_sede, fecha_inicio_str, fecha_fin_str))
         cajas_productividad = cur.fetchall()
         print(cajas_productividad)
         cur.close()
@@ -270,6 +271,8 @@ def generar_datos():
             'PesoTotal': caja[2],
             'Porcentaje': caja[3]
         } for caja in cajas_productividad]
+        
+        
 
         return jsonify({'status': 'success', 'data': registros})
     except Exception as e:
@@ -361,6 +364,7 @@ def dashboardContent():
                 'Total':dia[0]
             }
             dia_list.append(dia_dict)
+            print(dia_list)
         # registros huerfanos 
         cursor = mysql.connection.cursor()
         cursor.execute('''
@@ -380,7 +384,7 @@ def dashboardContent():
             }
             data_list.append(data_dict)
             
-        return render_template('views/dashboardContent.html' , users = user_list, aux=aux_list, dia=dia_list, huerfanos=data_list)
+        return render_template('views/dashboardContent.html', users = user_list, aux=aux_list, dia=dia_list, huerfanos=data_list)
     except Exception as e:
         print(f"Error:{e}")
         return "Error al obtener usuarios", 500
