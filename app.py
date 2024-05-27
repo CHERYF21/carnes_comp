@@ -262,7 +262,12 @@ def generar_datos():
                    ORDER BY PesoTotal DESC'''
         cur.execute(query, (tope_registros, nombre_sede, fecha_inicio_str, fecha_fin_str))
         cajas_productividad = cur.fetchall()
-        print(cajas_productividad)
+        
+                # consulta ultima insercion 
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT MAX(Fecha) AS UltimaInsercion FROM registroAuxiliar")
+        insercion = cur.fetchall()[0]
+        # fin consulta ultima insercion
         cur.close()
 
         registros = [{
@@ -270,11 +275,11 @@ def generar_datos():
             'NombreVendedor': caja[1],
             'PesoTotal': caja[2],
             'Porcentaje': caja[3]
-        } for caja in cajas_productividad]
-        
-        
+        } for caja in cajas_productividad] 
 
-        return jsonify({'status': 'success', 'data': registros})
+        return jsonify({'status': 'success', 
+                        'data': registros,
+                        'ultima_insercion':insercion})
     except Exception as e:
         app.logger.error(f"Error processing request: {str(e)}")
         return jsonify({'status': 'fail', 'message': 'Error al consultar los datos'}), 500

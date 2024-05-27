@@ -120,6 +120,10 @@ button:hover {
     background-color: #5a5a5a;
 }
 
+#ultimaActualizacion{
+    color: red;
+}
+
 /* Media query para pantallas de hasta 768px de ancho */
 @media screen and (max-width: 768px) {
     .dashboardContent {

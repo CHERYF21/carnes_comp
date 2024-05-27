@@ -30,6 +30,11 @@ function buscarRegistros() {
                         '<td align="center">' + row.Porcentaje + '%</td>' +
                         '</tr>';
                     $('#tablaRegistros tbody').append(newRow);
+
+                    if(response.ultima_insercion){
+                        document.getElementById('ultimaActualizacion').textContent = response.ultima_insercion;
+                    }
+
                 });
                 console.log(response.data);
             } else {

@@ -25,9 +25,8 @@
                 <!-- card solo para admin  -->
                 {% if 'sede' in session and session['cargo'] == '02' %}
                 <div class="admin">
-                    <h1>vista admin</h1>
-                    <h5>Sede Actual: </h5>
-                    <h5>Ultima actualizacion: </h5>
+                    <h4>Ultima actualizacion: </h4>
+                    <p><b id="ultimaActualizacion">No dispo</b> </p>
                 </div>
                 {% endif %}
                 <!-- fin card  -->
