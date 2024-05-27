@@ -265,7 +265,7 @@ def generar_datos():
         
                 # consulta ultima insercion 
         cur = mysql.connection.cursor()
-        cur.execute("SELECT MAX(fecha_dcto) AS UltimaInsercion FROM registroAuxiliar")
+        cur.execute("SELECT DATE_FORMAT(MAX(Fecha), '%Y-%m-%d') AS UltimaInsercion FROM registroAuxiliar;")
         insercion = cur.fetchall()[0]
         # fin consulta ultima insercion
         cur.close()
@@ -359,7 +359,7 @@ def dashboardContent():
         cursor.execute(''' 
                 SELECT SUM(Peso) AS Total 
                     FROM registroAuxiliar 
-                    WHERE DATE_FORMAT(fecha_dcto, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m');
+                    WHERE DATE_FORMAT(Fecha, '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m');
                 ''')
         resp = cursor.fetchall()
         cursor.close()
