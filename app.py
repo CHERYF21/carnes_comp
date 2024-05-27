@@ -118,11 +118,12 @@ def registro():
                         (username, password, cargo, sede))
             mysql.connection.commit()
             cur.close()
-            return redirect(url_for('dashboardContent'))
-            
+            msg = "Usuario registrado con éxito!"
+            success = True
         except Exception as e:
             msg = str(e)
-        
+        finally:
+            return jsonify({'success': success, 'msg': msg})
         
 
 
@@ -247,7 +248,6 @@ def generar_datos():
         #'SELECT {} FROM topes_sede WHERE nombre_sedes = {}' .format(tabla_tope_registros, id_co))
     'SELECT ' + tabla_tope_registros + ' FROM topes_sede WHERE nombre_sedes = \'' + id_co + '\'')
     tope_registros = cur.fetchone()[0]
-    print(tope_registros)
     cur.close()
     # verifica que sede_admin sea diferente de nulo 
     nombre_sede = sede_admin if sede_admin else id_co
@@ -265,7 +265,7 @@ def generar_datos():
         
                 # consulta ultima insercion 
         cur = mysql.connection.cursor()
-        cur.execute("SELECT MAX(Fecha) AS UltimaInsercion FROM registroAuxiliar")
+        cur.execute("SELECT MAX(fecha_dcto) AS UltimaInsercion FROM registroAuxiliar")
         insercion = cur.fetchall()[0]
         # fin consulta ultima insercion
         cur.close()
@@ -357,8 +357,10 @@ def dashboardContent():
         # ventas del dia actual 
         cursor = mysql.connection.cursor()
         cursor.execute(''' 
-                SELECT SUM(Peso) AS Total FROM registroAuxiliar 
-                WHERE DATE(Fecha) = CURDATE();
+                SELECT SUM(Peso) AS Total 
+                FROM registroAuxiliar 
+                WHERE fecha_dcto >= DATE_SUB(CURDATE(), INTERVAL 3 DAY) 
+                AND fecha_dcto < CURDATE();
                 ''')
         resp = cursor.fetchall()
         cursor.close()
