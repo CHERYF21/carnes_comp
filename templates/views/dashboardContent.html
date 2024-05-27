@@ -1,120 +1,114 @@
-<!-- templates/dashboardContent.html -->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/dashboardContent.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/tablaRegistros.css') }}" />
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles/dashboardContent.css') }}"
-    />
-
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+  />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <!-- dashboardContent.html -->
     <div class="dashboardIndex">
-      {% extends 'views/sidebar.html' %} {% block content %}
-      <div class="dashboard">
-        <div>
-          <h2>Dashboard - {{ nombres_sedes }}</h2>
-
-        </div>
-        <div class="graficos-item">
-          <section class="cards">
-            <!-- Datos temporales para las cards -->
-            {% set dataCards = [ {'title': 'Registos por cajero', 'icon':'chart-line'}, 
-            {'title':
-            'Registro por caja', 'icon': 'chart-bar'}, 
-            {'title': 'Registros totales', 'icon': 'chart-pie',
-            'nombre': 'Nombre 3', 'caja': 'Caja 3', 'registros': 20, 'total':
-            2000, 'facturas': 10}, 
-            {'title': 'Facturas emitidas', 'icon':
-            'receipt', 'nombre': 'Nombre 3', 'caja': 'Caja 3', 'registros': 20,
-            'total': 2000, 'facturas': 10} ] %}
-            <!-- Renderizado de las cards -->
-            {% for card in dataCards %}
-            <div class="cardItem">
-              <div class="icon"></div>
-              <div>
-                <h3>{{ card.title }}</h3>
-                <div class="cardContent">
-                  <div class="icon-item">
-                    <!-- Iconos de Font Awesome -->
-                    <i class="fas fa-{{ card.icon }}"></i>
-                  </div>
-                  <div>
-                    <!-- registros por cajeros -->
-                    {% if card.title == 'Registos por cajero' %} 
-                    {% for registro in cajero_registros %}
-                    <span><b>Nombre:</b> {{ registro[0] }}</span>
-                    <span><b>Cantidad de Registros:</b> {{ registro[1] }}</span>
-                    {% endfor %} {% endif %} {% if card.caja %}
-                    <span>Caja: {{ card.caja }}</span>
-                    {% endif %}
-                    <!-- Mostrar registros por cajas -->
-                    {% if card.title == 'Registro por caja' %}
-                    {% for caja in cajas_cantidad %}
-                    <span><b>Caja:</b> {{ caja[0] }}</span>
-                    <span><b>Cantidad de Registros:</b> {{ caja[1] }}</span>
-                    {% endfor %}
-                    {% endif %}
-                    
-                    
-                    <p>
-                      {{ 'Total: ' + card.total|string if card.total is defined
-                      }}
-                    </p>
-                    <p>
-                      {{ 'Facturas: ' + card.facturas|string if card.facturas is
-                      defined }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-          </section>
-          <section class="graficoContent">
-            <div class="graficas">
-              <canvas id="productividadChart"></canvas>
-            </div>
-            <div class="graficas">
-              <canvas id="inactividadChart"></canvas>
-            </div>
-          </section>
-        </div>
+      <div class="nav">
+        {% extends 'views/sidebar.html' %} 
       </div>
-      <script>
-        // Configurar y renderizar el gráfico de productividad
-        var productividadData = {{ productividad_data | safe }};
-        var productividadCtx = document.getElementById('productividadChart').getContext('2d');
-        var productividadChart = new Chart(productividadCtx, {
-            type: 'bar',
-            data: productividadData,
-            options: {
-                // Opciones de configuración del gráfico
-            }
-        });
 
-        // Configurar y renderizar el gráfico de tiempo de inactividad
-        var inactividadData = {{ inactividad_data | safe }};
-        var inactividadCtx = document.getElementById('inactividadChart').getContext('2d');
-        var inactividadChart = new Chart(inactividadCtx, {
-            type: 'line',
-            data: inactividadData,
-            options: {
-                // Opciones de configuración del gráfico
-            }
-        });
-      </script>
+      {% block content %}
+        <div class="container">
+            <h2 id="title">Dashboard</h2>
+            <div class="cards">
+              {% include "views/cardsDashboard.html" %}
+            </div>
+          <div class="option">
+            <button class="openModalBtn">Crear Usuario</button>
+          </div>
+          <section class="table">
+            {% include "views/tableUsers.html" %}
+          </section>
+          <!-- modal registro  -->
+          <section class="modal">
+            <div class="modal__container">
+              <div class="close">
+                <button class="modal__close">X</button>
+              </div>
+                <form  id="registrationForm" method="post" action="{{url_for("registro")}}">
+                    <div class="inputContainer-register">
+                        <div class="left-register">
+                            <label for="usuario">Usuario</label>
+                            <input name="username" id="username" type="text" placeholder="Usuario..." required>
+                        </div>
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <div class="inputContainer-register">
+                        <div class="left-register">
+                            <label for="password">Contraseña</label>
+                            <input name="password" id="password" type="password" placeholder="Contraseña" required>
+                        </div>
+                        <i class="fa fa-lock"></i>
+                    </div>
+                    <div class="inputContainer-register">
+                        <div class="left-register">
+                            <label for="password">Contraseña</label>
+                            <input name="passwordConfirm" id="passwordConfirm" type="password" placeholder="Confirmar Contraseña" required>
+                        </div>
+                        <i class="fa fa-lock"></i>
+                    </div>
+                    <div class="inputContainer-register">
+                        <div class="left-register">
+                            <select id="cargo" name="cargo" class="opcion-select">
+                              <option value="" disabled selected>
+                                Selecciona tu cargo...
+                              </option>
+                              <option value="01">Gestion Humana</option>
+                              <option value="02">Administrador</option>
+                              <option value="03">Lider de Cajas</option>
+                              <option value="04">Isontrol</option>
+                            </select>
+                        </div>
+                          <i class="fa fa-store"></i>
+                    </div>
+                    <div class="inputContainer-register">
+                        <div class="left-register">
+                            <select id="sede" name="sede" class="opcion-select">
+                              <option value="" disabled selected>
+                                Selecciona la sede...
+                              </option>
+                              <option value="LA 33">La 33</option>
+                              <option value="SAN CRISTOBAL">San Cristobal</option>
+                              <option value="LOS BALSOS">Poblado</option>
+                              <option value="RIONEGRO">Rionegro</option>
+                              <option value="SAB. CENTRAL">Sabaneta Avenida</option>
+                              <option value="INTERMEDIA">Intermedia</option>
+                              <option value="PRADO">San Antonio de Prado</option>
+                              <option value="SAB. PARQUE">Sabaneta Parque</option>
+                              <option value="PEDREGAL">Pedregal</option>
+                              <option value="SAN JOAQUIN">San Joaquin</option>
+                              <option value="FLORESTA">Floresta</option>
+                              <option value="SAN MARCOS">San Marcos</option>
+                              <option value="LAURELES">Laureles</option>
+                            </select>
+                        </div>
+                          <i class="fa fa-store"></i>
+                    </div>
+                    <button type="submit" class="registroBtn">Registrar</button>
+                        <div class="msg">
+                            <div class="mensaje" id="msg">{{ msg }}</div>
+                        </div> 
+                    </div>
+                </form>
+          </section>
+          <!-- fin modal registro  -->
+        </div> 
+        <script src="../../static/js/modal.js"></script> 
       {% endblock %}
+
     </div>
   </body>
 </html>
