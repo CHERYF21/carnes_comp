@@ -404,32 +404,39 @@ def exportar_csv():
     fecha_inicio = request.form.get('fecha_inicio')
     fecha_fin = request.form.get('fecha_fin')
     # convertir la fecha
-    fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d").strftime("%Y%m%d")
-    fecha_fin = datetime.strptime(fecha_fin, "%Y-%m-%d").strftime("%Y%m%d")
-    #consulta para buscar la tope de registros
-    cursor = mysql.connection.cursor()
-    cursor.execute(
-        'SELECT tope_mes_30 FROM topes_sede WHERE id_co = %s', (id_co,))
-    tope_registros = cursor.fetchone()[0]
-    cursor.close()
+    fecha_inicio_dt = datetime.strptime(fecha_inicio, "%Y-%m-%d")
+    fecha_fin_dt = datetime.strptime(fecha_fin, "%Y-%m-%d")
+    fecha_inicio_str = fecha_inicio_dt.strftime("%Y%m%d")
+    fecha_fin_str = fecha_fin_dt.strftime("%Y%m%d")
+    
+    dias_mes = fecha_inicio_dt.day
+    tabla_tope_registros = 'tope_mes_30' if dias_mes == 30 else 'tope_mes_31'
+    cur = mysql.connection.cursor()
+    cur.execute(
+        #'SELECT {} FROM topes_sede WHERE nombre_sedes = {}' .format(tabla_tope_registros, id_co))
+    'SELECT ' + tabla_tope_registros + ' FROM topes_sede WHERE nombre_sedes = \'' + id_co + '\'')
+    tope_registros = cur.fetchone()[0]
+    print(tope_registros)
+    cur.close()
 
     cursor = mysql.connection.cursor()
     cursor.execute('''
-        SELECT identificacion, MAX(nombres) as nombres, COUNT(identificacion) as cantidad_registros,
-            ROUND((COUNT(identificacion) / %s) * 100, 2) as porcentaje
-            FROM registro_mes 
-            WHERE id_co = %s AND fecha_dcto >= %s AND fecha_dcto <= %s
-            GROUP BY identificacion
-            ORDER BY cantidad_registros DESC;
-        ''', (tope_registros, id_co, fecha_inicio, fecha_fin))
+        SELECT NombreTienda, NombreVendedor, SUM(Peso) AS PesoTotal,
+                   ROUND((SUM(Peso) / %s) * 100 , 2) AS Porcentaje 
+                   FROM registroAuxiliar 
+                   WHERE NombreTienda = %s AND Fecha >= %s AND Fecha <= %s 
+                   GROUP BY NombreTienda, NombreVendedor
+                   ORDER BY PesoTotal DESC;
+        ''', (tope_registros, id_co, fecha_inicio_str, fecha_fin_str))
     registros = cursor.fetchall()
+    print(registros)
     cursor.close()
 
     # Especifica el nombre del archivo CSV y su ubicación
-    filename = 'registros.csv'
+    filename = 'registrosCarnes.csv'
 
     # Especifica los encabezados de las columnas
-    columnas = ['Cedula', 'Nombre', 'Registros', 'Porcentaje']
+    columnas = ['Nombre Tienda', 'Nombre Vendedor', 'Peso Total', 'Porcentaje']
 
     # Escribe los datos en el archivo CSV
     with open(filename, 'w', newline='', encoding='utf-8') as csvfile:

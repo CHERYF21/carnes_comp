@@ -122,6 +122,7 @@ button:hover {
 
 #ultimaActualizacion{
     color: red;
+    font-size: 14px;
 }
 
 /* Media query para pantallas de hasta 768px de ancho */

@@ -68,7 +68,7 @@ function exportToExcel() {
             var blob = new Blob([data], { type: 'text/csv' });
             var link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
-            link.download = 'registros.csv';
+            link.download = 'registrosCarnes.csv';
             link.click();
         },
         error: function(xhr, status, error) {
