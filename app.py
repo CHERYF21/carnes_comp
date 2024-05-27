@@ -358,9 +358,8 @@ def dashboardContent():
         cursor = mysql.connection.cursor()
         cursor.execute(''' 
                 SELECT SUM(Peso) AS Total 
-                FROM registroAuxiliar 
-                WHERE fecha_dcto >= DATE_SUB(CURDATE(), INTERVAL 3 DAY) 
-                AND fecha_dcto < CURDATE();
+                    FROM registroAuxiliar 
+                    WHERE DATE_FORMAT(fecha_dcto, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m');
                 ''')
         resp = cursor.fetchall()
         cursor.close()
