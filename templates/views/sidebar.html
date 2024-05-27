@@ -18,7 +18,7 @@
             </div>
             <div class="menu">
                   <!-- condicional de acceso -->
-                {% if 'sede' in session and session['sede'] == 'LA 33' %}
+                {% if 'sede' in session and session['cargo'] == '02' %}
                     <a href={{url_for("dashboardContent")}} class="item_link" title="Dashboard" >
                         <i class="fas fa-indent"></i>
                         <span class="navItem">Dashboard</span>
@@ -29,13 +29,9 @@
                         <i class="fas fa-star"></i>
                         <span class="navItem">Compensación</span>
                     </a>
-                <a href={{url_for("registrosCajas")}} class="item_link" title="Registros por Cajas" >
+                <a href={{url_for("registrosCarnes")}} class="item_link" title="Registros por Cajas" >
                     <i class="fas fa-box"></i>
                     <span class="navItem">Registros por Cajas</span>
-                </a>
-                <a href={{url_for("productividadCajas")}} class="item_link" title="Productividad Por Caja">
-                    <i class="fas fa-users"></i>
-                    <span class="navItem">Productividad Por Caja</span>
                 </a>
                 <div class="item_link" title="Cerrar Sesión" onclick="logout()">
                     <i class="fas fa-sign-out-alt"></i>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/cardsDashboard.css') }}">
+</head>
+<body>
+    {% block content %}
+    <div class="container-cards">
+        {% for dia in dia %}
+        <div class="card">
+            <div class="image">
+                <h4>Ventas del dia</h4>
+            </div>
+            <div class="contenido">
+                <h5>Total venta: {{ dia.Total }}</h5>
+            </div>
+        </div>
+        {% endfor %}
+        {% for aux in aux %}
+        <div class="card">
+            <div class="image">
+                <h4>Auxiliar con mas ventas</h4>
+            </div>
+            <div class="contenido">
+                <h5>Nombre: {{ aux.NombreVendedor }}</h5>
+                <h5>Cantidad: {{aux.pesoTotal}} </h5>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="card">
+            <div class="image">
+                <h4>Registro huérfanos</h4>
+            </div>
+            <div class="cont-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tienda</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for huerfano in huerfanos %}
+                        <tr>
+                            <td>{{ huerfano.NombreTienda }}</td>
+                            <td>{{ huerfano.total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>

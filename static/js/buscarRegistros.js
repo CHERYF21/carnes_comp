@@ -1,42 +1,49 @@
 function buscarRegistros() {
     var fecha_inicio = $('#date1').val();
     var fecha_fin = $('#date2').val();
-    console.log(fecha_fin)
-    console.log(fecha_inicio)
+    console.log('Fecha Inicio:', fecha_inicio, 'Fecha Fin:', fecha_fin);
     document.getElementById("loaderBuscar").style.display = "block";
 
     $.ajax({
-        url: '/registros_sede',
-        type: 'POST',
+        url: '/generar_datos',
+        type: 'GET',
         data: {
             fecha_inicio: fecha_inicio,
             fecha_fin: fecha_fin
         },
+        xhrFields: {
+            withCredentials: true
+        },
+        crossDomain: true,
         success: function(response) {
-            // Limpiar el contenido existente del tbody
             $('#tablaRegistros tbody').empty();
             document.getElementById("loaderBuscar").style.display = "none";
-            
-            // Insertar las nuevas filas en el tbody
-            for (var i = 0; i < response.length; i++) {
-                var row = response[i];
-                var newRow = '<tr>' +
-                    '<td align="center">' + row[0] + '</td>' + // Cédula
-                    '<td align="center">' + row[1] + '</td>' + // Nombre
-                    // Registros
-                    '<td align="center">' + row[3] + '</td>' +
-                    '<td align="center">' + row[4] + '%</td>' +
-                    '</tr>';
-                $('#tablaRegistros tbody').append(newRow);
 
+            if (response.status === 'success') {
+                response.data.forEach(function(row) {
+                    var newRow = '<tr>' +
+                        '<td align="center">' + row.NombreTienda + '</td>' +
+                        '<td align="center">' + row.NombreVendedor + '</td>' +
+                        '<td align="center">' + row.PesoTotal + '</td>' +
+                        '<td align="center">' + row.Porcentaje + '%</td>' +
+                        '</tr>';
+                    $('#tablaRegistros tbody').append(newRow);
+                });
+                console.log(response.data);
+            } else {
+                console.error('Error en la respuesta:', response.message);
+                alert('Error: ' + response.message);
             }
         },
         error: function(xhr, status, error) {
-            console.error('Error al buscar registros:', error);
-            $('#loaderBuscar').html('Buscar').prop('disabled', false);
+            document.getElementById("loaderBuscar").style.display = "none";
+            console.error('Error al buscar registros:', error, 'Response:', xhr.responseText);
+            alert('Error al buscar registros: ' + xhr.responseText);
         }
     });
 }
+
+
 function exportToExcel() {
     // Generar la solicitud para exportar a CSV
     document.getElementById("loaderExportar").style.display = "block";

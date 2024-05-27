@@ -10,10 +10,18 @@
     outline: none;
 }
 /* Estilos para la tabla */
+.container-table {
+  width: 100%;
+  height: 250px; /* Altura deseada del contenedor */
+  overflow-y: auto; /* Habilita el desplazamiento vertical */
+  overflow-x: auto; /* Habilita el desplazamiento horizontal, si es necesario */
+  border: 1px solid #ccc;  /* Borde para visualizar mejor el contenedor */
+}
 .tabla {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid #e3fdf5;
+
   }
   
   /* Estilos para las celdas de la cabecera */
@@ -36,4 +44,115 @@
   .tabla tr:nth-child(odd) {
     background-color: #e3fdf5;
   }
+  /* estilos modal update  */
+.modal-update{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #111111bd;
+  display: flex;
+  pointer-events: none;
+  opacity: 0;
+}
+.container-m{
+  margin: auto;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90%;
+  padding: 3em 2.5em;
+  border-radius: 6px;
+  background-color: #ddd;
+  display: grid;
+  gap: 1em;
+}
+.modalview{
+    opacity: 1;
+    pointer-events: unset;
+}
+
+.close{
+  display: flex;
+  justify-content: flex-end;
+}
+.modalclose{
+  background-color: #27374d;
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  border-radius: 6px;
+  color: #f0f0f0;
+  transition-duration: 0.3s;
+}
+ /* estilos modal actualizar  */
+ form {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   
+  .inputContainer-register{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ececec;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin: 5px;
+
+    .left-register {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      width: 80%;
+
+      label {
+        font-size: 11px;
+      }
+      
+      input {
+        border: none;
+        font-weight: bold;
+        background-color: inherit;
+        font-size: 13px;
+        color: #2f2f2f;
+        outline: none;
+      }
+      .opcion-select {
+        border: none;
+        font-weight: bold;
+        background-color: inherit;
+        font-size: 13px;
+        color: #2f2f2f;
+        outline: none;
+        padding: 10px;
+      }  
+    }
+  }
+
+  .registroBtn {
+    border: none;
+    margin: 5px 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    color: white;
+    background-color: #27374d;
+    border-radius: 8px;
+    transition-duration: 0.3s;
+  }
+
+  .registroBtn:hover{
+    background-color: #4235d6;
+  }
+}
+
+.msg {
+text-align: center;
+padding: 10px;
+display: none;
+}
+p{
+font-size: 12px;
+padding: 10px;
+}
