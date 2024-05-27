@@ -118,12 +118,11 @@ def registro():
                         (username, password, cargo, sede))
             mysql.connection.commit()
             cur.close()
-            msg = "Usuario registrado con éxito!"
-            success = True
+            return redirect(url_for('dashboardContent'))
+            
         except Exception as e:
             msg = str(e)
-        finally:
-            return jsonify({'success': success, 'msg': msg})
+        
         
 
 
@@ -248,6 +247,7 @@ def generar_datos():
         #'SELECT {} FROM topes_sede WHERE nombre_sedes = {}' .format(tabla_tope_registros, id_co))
     'SELECT ' + tabla_tope_registros + ' FROM topes_sede WHERE nombre_sedes = \'' + id_co + '\'')
     tope_registros = cur.fetchone()[0]
+    print(tope_registros)
     cur.close()
     # verifica que sede_admin sea diferente de nulo 
     nombre_sede = sede_admin if sede_admin else id_co
