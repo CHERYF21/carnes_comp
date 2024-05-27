@@ -118,12 +118,10 @@ def registro():
                         (username, password, cargo, sede))
             mysql.connection.commit()
             cur.close()
-            msg = "Usuario registrado con éxito!"
-            success = True
+            return redirect(url_for('dasboardContent'))
         except Exception as e:
             msg = str(e)
-        finally:
-            return jsonify({'success': success, 'msg': msg})
+
         
 
 
