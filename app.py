@@ -12,14 +12,14 @@ TIEMPO_DE_INACTIVIDAD = 120
 
 app = Flask(__name__)
 # conexión a la base de datos
-# app.config['MYSQL_HOST'] = '192.168.33.251'
-# app.config['MYSQL_USER'] = 'miguelos'
-# app.config['MYSQL_PASSWORD'] = 'Mosorio2022$'
-# app.config['MYSQL_DB'] = 'comp_carnes'
-app.config['MYSQL_HOST'] = '127.0.0.1'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
+app.config['MYSQL_HOST'] = '192.168.33.251'
+app.config['MYSQL_USER'] = 'miguelos'
+app.config['MYSQL_PASSWORD'] = 'Mosorio2022$'
 app.config['MYSQL_DB'] = 'comp_carnes'
+# app.config['MYSQL_HOST'] = '127.0.0.1'
+# app.config['MYSQL_USER'] = 'root'
+# app.config['MYSQL_PASSWORD'] = 'root'
+# app.config['MYSQL_DB'] = 'comp_carnes'
 
 # inicia la base de datos
 mysql = MySQL(app)
@@ -331,7 +331,7 @@ def dashboardContent():
      # funcion al auxiliar con mas ventas 
         cursor = mysql.connection.cursor()
         cursor.execute(
-                '''select NombreVendedor, SUM(Peso) AS pesoTotal from registroauxiliar
+                '''select NombreVendedor, SUM(Peso) AS pesoTotal from registroAuxiliar
                 group by NombreVendedor
                 order by pesoTotal desc
                 limit 1;''')
@@ -349,7 +349,7 @@ def dashboardContent():
         # ventas del dia actual 
         cursor = mysql.connection.cursor()
         cursor.execute(''' 
-                SELECT SUM(Peso) AS Total FROM registroauxiliar 
+                SELECT SUM(Peso) AS Total FROM registroAuxiliar 
                 WHERE DATE(Fecha) = CURDATE();
                 ''')
         resp = cursor.fetchall()

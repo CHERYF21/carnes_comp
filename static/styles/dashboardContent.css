@@ -1,42 +1,57 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* General styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Main container */
 .dashboardIndex {
     display: flex;
-    .nav{
+    flex-wrap: wrap;
+}
+
+.nav {
+    width: 100%;
+    display: flex;
+}
+
+.container {
+    margin: 10px;
+    padding: 20px;
+    width: 79vw;
+    height: 95vh;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.2);
+    overflow-y: auto; /* Ensure content is scrollable if it overflows */
+
+    #title {
+        margin: 10px;
+        color: #27374d;
+    }
+
+    .option {
         width: 100%;
         display: flex;
+        justify-content: flex-end;
     }
-    .container {
+
+    .openModalBtn {
+        background-color: #27374d;
+        padding: 10px;
+        border-radius: 6px;
+        color: #fff;
         margin: 10px;
-        padding: 20px;
-        width: 79vw;
-        height: 95vh;
-        border-radius: 8px;
-        background-color: #f0f0f0;
-        box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.2);
-
-        #title{
-            margin: 10px;
-            color: #27374d;
-        }
-
-        .option{
-            width: 100%;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .openModalBtn{
-            background-color: #27374d;
-            padding: 10px;
-            border-radius: 6px;
-            color: #fff;
-            margin: 10px;
-            cursor: pointer;
-        }
-    }  
+        cursor: pointer;
+    }
 }
-/* estilos modal  */
-.modal{
+
+/* Modal styles */
+.modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -44,108 +59,157 @@
     bottom: 0;
     background-color: #111111bd;
     display: flex;
+    justify-content: center;
+    align-items: center;
     opacity: 0;
     pointer-events: none;
+    transition: opacity 0.3s ease;
 }
 
-.modal--show{
+.modal--show {
     opacity: 1;
-    pointer-events: unset;
+    pointer-events: all;
 }
 
-.modal__container{
-    margin: auto;
+.modal__container {
     width: 90%;
     max-width: 600px;
     max-height: 90%;
     background-color: #fff;
-    border-radius: 6px ;
+    border-radius: 6px;
     padding: 15px 40px 40px 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    overflow-y: auto; /* Ensure content is scrollable if it overflows */
 }
-/* estilos formulario  */
-.close{
+
+/* Form styles */
+.close {
     display: flex;
     justify-content: flex-end;
 }
-.modal__close{
+
+.modal__close {
     background-color: #27374d;
     border: none;
     cursor: pointer;
     width: 40px;
     border-radius: 6px;
     color: #f0f0f0;
-    transition-duration: 0.3s;
+    transition: background-color 0.3s ease;
 }
+
+.modal__close:hover {
+    background-color: #4235d6;
+}
+
 form {
     margin-top: 30px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    
-    .inputContainer-register{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #ececec;
-      padding: 10px 15px;
-      border-radius: 8px;
-      margin: 5px;
+    gap: 10px; /* Add some gap between form elements */
+}
 
-      .left-register {
+.inputContainer-register {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ececec;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin: 5px;
+
+    .left-register {
         display: flex;
         flex-direction: column;
         gap: 3px;
         width: 80%;
 
         label {
-          font-size: 11px;
+            font-size: 11px;
         }
-        
-        input {
-          border: none;
-          font-weight: bold;
-          background-color: inherit;
-          font-size: 13px;
-          color: #2f2f2f;
-          outline: none;
+
+        input, .opcion-select {
+            border: none;
+            font-weight: bold;
+            background-color: inherit;
+            font-size: 13px;
+            color: #2f2f2f;
+            outline: none;
         }
+
         .opcion-select {
-          border: none;
-          font-weight: bold;
-          background-color: inherit;
-          font-size: 13px;
-          color: #2f2f2f;
-          outline: none;
-          padding: 10px;
-        }  
-      }
+            padding: 10px;
+        }
+    }
+}
+
+.registroBtn {
+    grid-column: span 2; /* Make the button span both columns */
+    border: none;
+    padding: 10px;
+    margin: 5px 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    color: white;
+    background-color: #27374d;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.registroBtn:hover {
+    background-color: #4235d6;
+}
+
+.msg {
+    text-align: center;
+    padding: 10px;
+    display: none;
+}
+
+p {
+    font-size: 12px;
+    padding: 10px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .container {
+        width: 95vw; /* Adjust width for smaller screens */
+        height: auto; /* Adjust height for smaller screens */
+    }
+
+    .cards {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .option {
+        justify-content: center;
+    }
+
+    form {
+        grid-template-columns: 1fr; /* Single column layout for forms */
     }
 
     .registroBtn {
-      border: none;
-      margin: 5px 5px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 16px;
-      color: white;
-      background-color: #27374d;
-      border-radius: 8px;
-      transition-duration: 0.3s;
+        grid-column: span 1; /* Adjust button to span single column */
     }
-
-    .registroBtn:hover{
-      background-color: #4235d6;
-    }
-  }
-
-.msg {
-  text-align: center;
-  padding: 10px;
-  display: none;
 }
-p{
-  font-size: 12px;
-  padding: 10px;
+
+@media (max-width: 480px) {
+    .inputContainer-register {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .inputContainer-register i {
+        display: none;
+    }
+
+    .modal__container {
+        width: 95%;
+    }
 }
