@@ -95,7 +95,6 @@ def logout():
 @app.route('/registrar', methods=['POST'])
 def registro():
     msg = ""
-    success = False
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -105,20 +104,20 @@ def registro():
 
         # Validar que las contraseñas coincidan
         if password != password_confirm:
-            return jsonify({'success': False, 'msg': 'Las contraseñas no coinciden'})
+            msg = 'Las contraseñas no coinciden'
         try:
             cur = mysql.connection.cursor()
             cur.execute('SELECT id from user_carnes WHERE username=%s',(username,))
             exist_user = cur.fetchone()
             
             if exist_user:
-                return jsonify({'success':False, 'msg':'nombre de usuario en uso'})
+                msg ='Nombre de usuario ys existe'
             
             cur.execute("INSERT INTO user_carnes (username, password, cargo, sede) VALUES (%s, %s, %s, %s)",
                         (username, password, cargo, sede))
             mysql.connection.commit()
             cur.close()
-            return redirect(url_for('dasboardContent'))
+            return redirect(url_for('dashboardContent'))
         except Exception as e:
             msg = str(e)
 

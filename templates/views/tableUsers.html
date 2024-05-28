@@ -107,9 +107,11 @@
                   <i class="fa fa-store"></i>
             </div>
             <button type="submit" class="registroBtn">Actualizar</button>
-                <div class="msg">
-                    <div class="mensaje" id="msg">{{ msg }}</div>
-                </div> 
+            {% if msg %}
+            <div class="msg">
+                <p>{{ msg }}</p>
+            </div>
+            {% endif %} 
             </div>
         </form>
         </div>
